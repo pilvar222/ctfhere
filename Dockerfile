@@ -18,3 +18,5 @@ RUN apt install -y file ruby-dev
 RUN gem install seccomp-tools
 RUN pip install tqdm
 RUN apt install -y python2.7
+RUN apt install -y binwalk
+
