@@ -21,3 +21,5 @@ RUN apt install -y python2.7
 RUN apt install -y binwalk
 RUN apt install -y hexedit
 RUN apt install -y p7zip-full
+RUN apt install -y elfutils
+RUN apt install -y bsdmainutils
