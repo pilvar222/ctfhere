@@ -10,3 +10,4 @@ sed -i '/alias alsoctf/d' ~/.bashrc
 sed -i '/alias ctfhere/d' ~/.bashrc
 echo "alias ctfhere=\"pwd | xargs printf -- 'docker run -p24889:24889 -it --name ctf --rm -v %s:/mnt ctf:latest /bin/bash' | xargs xargs -o\"" >> ~/.bashrc
 echo "alias alsoctf=\"docker exec -it ctf /bin/bash\"" >> ~/.bashrc
+source ~/.bashrc
