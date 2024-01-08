@@ -1,3 +1,4 @@
+# basically https://github.com/LiveOverflow/pwn_docker_example/blob/master/ctf/Dockerfile but with some cursed additions and QOL improvments
 FROM ubuntu:22.04
 ENV LC_CTYPE C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
