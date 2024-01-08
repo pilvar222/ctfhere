@@ -27,8 +27,13 @@ RUN apt install -y bsdmainutils
 RUN pip install frida-tools
 RUN apt install -y openssh-server
 RUN mkdir -p /run/sshd
-RUN  echo 'nohup bash -c "/usr/sbin/sshd -p 24889 -D" 2>/dev/null & sleep 0.1 && sed -i "/nohup bash -c/d" /root/.bashrc' >> /root/.bashrc
 RUN mkdir -p /root/.ssh
+RUN printf 'export SHELL="/bin/bash"\nexport TERM="xterm-256color"\n' > /root/.bashrc
+RUN cat /etc/skel/.bashrc >> /root/.bashrc
 RUN echo 'alias pwninit="pwninit --template-path /tools/pwninitTemplate.py"' >> /root/.bashrc
 COPY pwninitTemplate.py /tools/pwninitTemplate.py
 COPY id_rsa.pub /root/.ssh/authorized_keys
+COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
+RUN adduser ctf
+ENTRYPOINT [ "./entrypoint.sh" ]
