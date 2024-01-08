@@ -26,6 +26,9 @@ RUN apt install -y elfutils
 RUN apt install -y bsdmainutils
 RUN pip install frida-tools
 RUN apt install -y openssh-server
+# Fixes rare encoding bug with pwndbg
+RUN apt-get install -y locales
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 RUN mkdir -p /run/sshd
 RUN printf 'export SHELL="/bin/bash"\nexport TERM="xterm-256color"\n' > /root/.bashrc
 RUN cat /etc/skel/.bashrc >> /root/.bashrc
