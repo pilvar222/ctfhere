@@ -19,11 +19,15 @@ def conn():
     r = remote("addr", 1337)
   else:
     if args.GDB:
-      os.system('ssh-keygen -f "~/.ssh/known_hosts" -R "[localhost]:24889"')
-      s = ssh(user="root", host='localhost', port=24889)
-      s.set_working_directory(''.join(exe.path.split("/")[:-1])) # hacky way to fix challenges with relative imports. TODO: make something cleaner that this with a pwninit patch
-      r = s.process(["/mnt/"+exe.path.split("/")[-1]])
-      gdb.attach(r)
+      if not is_docker():
+        os.system('ssh-keygen -f "~/.ssh/known_hosts" -R "[localhost]:24889"')
+        s = ssh(user="root", host='localhost', port=24889)
+        s.set_working_directory(''.join(exe.path.split("/")[:-1])) # hacky way to fix challenges with relative imports. TODO: make something cleaner that this with a pwninit patch
+        r = s.process(["/mnt/"+exe.path.split("/")[-1]])
+        gdb.attach(r)
+      else:
+        r = process({proc_args})
+        gdb.attach(r)
     elif is_docker() or args.DANGER:
       r = process({proc_args})
     else:
