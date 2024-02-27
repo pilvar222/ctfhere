@@ -22,7 +22,7 @@ def conn():
       if not is_docker():
         os.system('ssh-keygen -f "~/.ssh/known_hosts" -R "[localhost]:24889"')
         s = ssh(user="root", host='localhost', port=24889)
-        s.set_working_directory(''.join(exe.path.split("/")[:-1])) # hacky way to fix challenges with relative imports. TODO: make something cleaner that this with a pwninit patch
+        s.set_working_directory('/mnt/') # hacky way to fix challenges with relative imports. TODO: make something cleaner that this with a pwninit patch
         r = s.process(["/mnt/"+exe.path.split("/")[-1]])
         gdb.attach(r)
       else:
