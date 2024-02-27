@@ -2,10 +2,17 @@
 
 from pwn import *
 import os
+from pathlib import Path
+import sys
 
 {bindings}
 
 context.binary = {bin_name}
+
+# https://stackoverflow.com/questions/43878953/how-does-one-detect-if-one-is-running-within-a-docker-container-within-python
+def is_docker():
+    cgroup = Path('/proc/self/cgroup')
+    return Path('/.dockerenv').is_file() or cgroup.is_file() and 'docker' in cgroup.read_text()
 
 def conn():
   if args.REMOTE:
@@ -16,8 +23,11 @@ def conn():
       s = ssh(user="root", host='localhost', port=24889)
       r = s.process(["/mnt/"+exe.path.split("/")[-1]])
       gdb.attach(r)
-    else:
+    else if is_docker() or args.DANGER:
       r = process({proc_args})
+    else:
+      error("You are not running from a container. Please use REMOTE, GDB, or DANGER argument. (GDB and REMOTE are safe. DANGER will run the binary on your host machine.)")
+      sys.exit(1)
   return r
 
 
