@@ -39,4 +39,4 @@ COPY id_rsa.pub /root/.ssh/authorized_keys
 COPY entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
 RUN adduser ctf
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
