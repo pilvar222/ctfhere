@@ -25,6 +25,8 @@ def conn():
         s.set_working_directory('/mnt/') # hacky way to fix challenges with relative imports. TODO: make something cleaner that this with a pwninit patch
         r = s.process(["/mnt/"+exe.path.split("/")[-1]])
         gdb.attach(r)
+        import time
+        time.sleep(1)
       else:
         r = process({proc_args})
         gdb.attach(r)
